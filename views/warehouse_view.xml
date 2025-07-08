@@ -1,0 +1,296 @@
+<odoo>
+     <!-- view,action warehouse information -->
+     <record id="warehouse_tree_view" model="ir.ui.view">
+        <field name="name">warehouse.tree</field>
+        <field name="model">warehouse.information</field>
+        <field name="arch" type="xml">
+            <tree string="Maintenance Screw">
+                <field name="name"/>
+                <field name="factory_id"/>
+                <field name="phone"/>
+                <field name="email"/>
+            </tree>
+        </field>
+    </record>
+
+  <record id="warehouse_form_view" model="ir.ui.view">
+        <field name="name">warehouse.form</field>
+        <field name="model">warehouse.information</field>
+        <field name="arch" type="xml">
+            <form string="Maintenance Screw">
+                <div class="oe_button_box" name = "button_box">
+                    <button name="%(storing_view_action)d" type="action" string="component" class="oe_stat_button" icon = "fa-file-text-o"/>
+                    <button name="%(import_view_action)d" type="action" string="import" class="oe_stat_button" icon = "fa-file-text-o"/>
+                    <button name="%(export_view_action)d" type="action" string="export" class="oe_stat_button" icon = "fa-file-text-o"/>
+                </div>
+
+                <group>
+                    <field name="name"/>
+                    <field name="factory_id"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                </group>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="warehouse_view_action" model="ir.actions.act_window">
+        <field name="name">Warehouse information</field>
+        <field name="res_model">warehouse.information</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- view,action storing information -->
+     <record id="storing_tree_view" model="ir.ui.view">
+        <field name="name">storing.tree</field>
+        <field name="model">storing.information</field>
+        <field name="arch" type="xml">
+            <tree string="Maintenance Screw">
+                <field name="warehouse_id"/>
+                <field name="component_id"/>
+                <field name="amount"/>
+                <field name="unit"/>
+            </tree>
+        </field>
+    </record>
+
+  <record id="storing_form_view" model="ir.ui.view">
+        <field name="name">storing.form</field>
+        <field name="model">storing.information</field>
+        <field name="arch" type="xml">
+            <form string="Storing History">
+                <group>
+                    <group>
+                        <field name="warehouse_id"/>
+                        <field name="component_id"/>
+                    </group>
+                    <group>
+                        <field name="amount"/>
+                        <field name="unit"/>
+                        <field name="reorder_min"/>
+                    </group>
+                </group>
+                <group>
+                    <field name="note"/>
+                </group>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="storing_view_action" model="ir.actions.act_window">
+        <field name="name">storing information</field>
+        <field name="res_model">storing.information</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('warehouse_id', '=', active_id)]</field>
+        <field name="context">{'default_warehouse_id': active_id}</field>
+    </record>
+
+     view,action import history information
+     <record id="import_tree_view" model="ir.ui.view">
+        <field name="name">import.tree</field>
+        <field name="model">import.information</field>
+        <field name="arch" type="xml">
+            <tree string="Maintenance Screw">
+                <field name="import_code"/>
+                <field name="warehouse_id"/>
+                <field name="supplier"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+  <record id="import_form_view" model="ir.ui.view">
+        <field name="name">import.form</field>
+        <field name="model">import.information</field>
+        <field name="arch" type="xml">
+            <form string="Import">
+
+                    <header>
+                        <button name="action_im_confirmed" type="object" string="confirmed" invisible="status != 'new'" class="btn-primary"/>
+                        <button name="action_im_done" type="object" string="done" invisible="status != 'confirmed'" class="btn-primary"/>
+                        <button name="action_im_cancel" type="object" string="cancel" invisible="status == 'done'" />
+                        <field name="status" widget="statusbar" statusbar_visible = "new,confirmed,done" />
+                    </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="import_code"/>
+                            <field name="warehouse_id"/>
+                            <field name="supplier"/>
+                        </group>
+                        <group>
+                             <field name="import_date"/>
+                            <field name="user_created"/>
+                            <field name="user_confirmed"/>
+                            <field name="user_done"/>
+                            <field name="user_cancel"/>
+
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                    <notebook>
+                        <page name = "import_line" string = "Import line">
+                            <field name="import_line_ids">
+                                <tree editable = "bottom">
+<!--                                    <field name="name"/>-->
+                                    <field name="component"/>
+                                    <field name = "warehouse_id"/>
+                                    <field name="status"/>
+                                    <field name="import_amount"/>
+                                </tree>
+                                <form>
+                                    <group>
+<!--                                         <field name="name"/>-->
+                                        <field name="component"/>
+                                        <field name = "warehouse_id"/>
+                                        <field name="status"/>
+                                        <field name="import_amount"/>
+                                    </group>
+
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="import_view_action" model="ir.actions.act_window">
+        <field name="name">Import information</field>
+        <field name="res_model">import.information</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('warehouse_id', '=', active_id)]</field>
+        <field name="context">{'default_warehouse_id': active_id}</field>
+    </record>
+
+     view,action export history information
+     <record id="export_tree_view" model="ir.ui.view">
+        <field name="name">export.tree</field>
+        <field name="model">export.information</field>
+        <field name="arch" type="xml">
+            <tree string="Maintenance Screw">
+                <field name="export_code"/>
+                <field name="warehouse_id"/>
+                <field name="supplier"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+  <record id="export_form_view" model="ir.ui.view">
+        <field name="name">export.form</field>
+        <field name="model">export.information</field>
+        <field name="arch" type="xml">
+            <form string="Export">
+                <header>
+
+                    <button name="action_ex_waiting" type="object" string="Confirm" invisible="status != 'new'" class="btn-primary"/>
+                    <button name="action_deny_export_popup" type="object" string="Deny" groups="Maintenance_Screw.group_maintenance_leader" invisible="status != 'waiting'" class="btn-danger"/>
+                    <button name="action_ex_confirmed" type="object" string="Approve" groups="Maintenance_Screw.group_maintenance_leader" invisible="status != 'waiting'" class="btn-primary"/>                    <button name="action_ex_done" type="object" string="done" invisible="status != 'confirmed'" class="btn-primary"/><button name="action_ex_cancel" type="object" string="cancel" invisible="status == 'done'" />
+                    <field name="status" widget="statusbar" statusbar_visible = "new,waiting,confirmed,done" />
+                </header>
+                <sheet>
+                <group>
+                        <group>
+                            <field name="export_code"/>
+                            <field name="warehouse_id"/>
+                            <field name="supplier"/>
+                        </group>
+                        <group>
+                             <field name="export_date"/>
+                            <field name="user_created"/>
+                            <field name="user_confirmed"/>
+                            <field name="user_done"/>
+                            <field name="user_cancel"/>
+                        </group>
+                </group>
+                <group>
+                    <field name="description"/>
+                </group>
+                <notebook>
+                        <page name = "export_line" string = "Export line">
+                            <field name="export_line_ids">
+                                <tree editable = "bottom">
+<!--                                    <field name="name"/>-->
+                                    <field name="component"/>
+                                    <field name="warehouse_id"/>
+                                    <field name="status"/>
+                                    <field name="export_requested"/>
+                                    <field name="export_amount"/>
+                                </tree>
+                                <form>
+                                    <group>
+<!--                                         <field name="name"/>-->
+                                        <field name="component"/>
+                                        <field name="warehouse_id"/>
+                                        <field name="status"/>
+                                        <field name="export_requested"/>
+                                        <field name="export_amount"/>
+                                    </group>
+
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+<record id="view_export_deny_wizard_form" model="ir.ui.view">
+    <field name="name">export.deny.wizard.form</field>
+    <field name="model">export.deny.wizard</field>
+    <field name="arch" type="xml">
+        <form string="Deny Export">
+            <group>
+                <field name="deny_reason" required="1"/>
+            </group>
+            <footer>
+                <button name="action_confirm_deny" string="Confirm" type="object" class="btn-primary"/>
+                <button string="Cancel" class="btn-secondary" special="cancel"/>
+            </footer>
+        </form>
+    </field>
+</record>
+    <record id="export_view_action" model="ir.actions.act_window">
+        <field name="name">Export information</field>
+        <field name="res_model">export.information</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('warehouse_id', '=', active_id)]</field>
+        <field name="context">{'default_warehouse_id': active_id}</field>
+    </record>
+    <!-- menu warehouse -->
+    <menuitem id = "warehouse_menu"
+              name = "Warehouse"
+              parent = "maintenanceScrew_menu"
+    />
+
+    <menuitem id = "warehouse_information_menu"
+              name = "Information"
+              parent = "warehouse_menu"
+              action = "warehouse_view_action"
+              sequence = "1"
+     />
+<!--    <menuitem id = "storing_menu"-->
+<!--              name = "Storing"-->
+<!--              parent ="warehouse_menu"-->
+<!--              action = "storing_view_action"-->
+<!--              sequence="2"-->
+<!--    />-->
+<!--    <menuitem id = "import_menu"-->
+<!--              name = "Import history"-->
+<!--              parent ="warehouse_menu"-->
+<!--              action = "import_view_action"-->
+<!--              sequence="3"-->
+<!--    />-->
+<!--    <menuitem id = "export_menu"-->
+<!--              name = "Export history"-->
+<!--              parent ="warehouse_menu"-->
+<!--              action = "export_view_action"-->
+<!--              sequence="4"-->
+<!--    />-->
+</odoo>

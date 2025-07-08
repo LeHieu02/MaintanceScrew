@@ -1,0 +1,201 @@
+<odoo>
+     <!-- view,action factory information -->
+     <record id="factory_tree_view" model="ir.ui.view">
+        <field name="name">factory.tree</field>
+        <field name="model">factory.information</field>
+        <field name="arch" type="xml">
+            <tree string="Maintenance Screw">
+                <field name="id_name"/>
+                <field name="name"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="site_area"/>
+                <field name="location"/>
+                <field name="numberOfEmployee"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+
+  <record id="factory_form_view" model="ir.ui.view">
+        <field name="name">factory.form</field>
+        <field name="model">factory.information</field>
+        <field name="arch" type="xml">
+            <form string="Maintenance Screw">
+                <sheet>
+                    <div class="oe_button_box" name = "button_box">
+                           <button name="%(machine_view_action)d" type="action" class = "oe_stat_button" string="Machines" icon = "fa-file-text-o"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="id_name"/>
+                        </group>
+<!--                        <group class="oe_button_box" name = "button_box">-->
+<!--                            <button name="%(machine_view_action)d" type="action" string="Machines"/>-->
+<!--                        </group>-->
+                    </group>
+
+                    <group>
+                        <group>
+                             <field name="name"/>
+                             <field name="location"/>
+                            <field name="site_area"/>
+                        </group>
+                        <group>
+
+                            <field name="email"/>
+                            <field name="phone"/>
+                            <field name="numberOfEmployee"/>
+                            <field name="description"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="factory_view_action" model="ir.actions.act_window">
+        <field name="name">Factory</field>
+        <field name="res_model">factory.information</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+     <!-- view,action factory machine -->
+     <record id="machine_tree_view" model="ir.ui.view">
+        <field name="name">machine.tree</field>
+        <field name="model">machine.information</field>
+        <field name="arch" type="xml">
+            <tree string="Maintenance Screw">
+                <field name="name"/>
+                <field name="model_id"/>
+                <field name="machine_serial"/>
+                <field name="factory_id"/>
+                <field name="status"
+                       decoration-success = "status == 'active'"
+                       decoration-danger = "status == 'inactive'"
+                       widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+  <record id="machine_form_view" model="ir.ui.view">
+        <field name="name">machine.form</field>
+        <field name="model">machine.information</field>
+        <field name="arch" type="xml">
+            <form string="Maintenance Screw">
+                <sheet>
+                    <div class="oe_button_box" name = "button_box">
+                        <button name="action_open_maintenance_tree"
+                                type="object"
+                                icon="fa-calendar"
+                                string="Maintenance" />
+                         <button name="%(error_view_action)d" type="action" string="Error code" />
+                    </div>
+                    <group>
+                        <field name="name"/>
+                        <field name="factory_id"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="model_id"/>
+                            <field name="machine_serial"/>
+                            <field name="status"
+                                   decoration-success = "status == 'active'"
+                                   decoration-danger = "status == 'inactive'"
+                                   widget="badge"/>
+                        </group>
+                        <group>
+                            <field name="date_added"/>
+                            <field name="schedule_maintenance"/>
+                            <field name = "QR_code" widget = "image" class = "oe-avatar"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+     <record id="machine_graph_view" model="ir.ui.view">
+        <field name="name">machine.graph</field>
+        <field name="model">machine.information</field>
+        <field name="arch" type="xml">
+            <graph string="Factory graph">
+                <field name="factory_id" type="row"/>
+                <field name="status" type="col"/>
+                <field name="id" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="machine_view_action" model="ir.actions.act_window">
+        <field name="name">Machine</field>
+        <field name="res_model">machine.information</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('factory_id', '=', active_id)]</field>
+        <field name="context">{'default_factory_id': active_id}</field>
+    </record>
+    <!-- view,action factory component -->
+     <record id="component_tree_view" model="ir.ui.view">
+        <field name="name">component.tree</field>
+        <field name="model">component.information</field>
+        <field name="arch" type="xml">
+            <tree string="Maintenance Screw">
+                <field name="name"/>
+                <field name="model_ids" widget="many2many_tags"/>
+                <field name="componentSerial"/>
+                <field name="manufacturer"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+
+  <record id="component_form_view" model="ir.ui.view">
+        <field name="name">component.form</field>
+        <field name="model">component.information</field>
+        <field name="arch" type="xml">
+            <form string="Maintenance Screw">
+                <group>
+                    <group>
+                        <field name="name"/>
+                        <field name="model_ids" widget="many2many_tags"/>
+                        <field name="componentSerial"/>
+                        <field name="manufacturer"/>
+                        <field name="description"/>
+                    </group>
+                </group>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="component_view_action" model="ir.actions.act_window">
+        <field name="name">Component</field>
+        <field name="res_model">component.information</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!-- menu factory -->
+    <menuitem id = "factory_menu"
+              name = "Factory"
+              parent = "maintenanceScrew_menu"
+    />
+
+    <menuitem id = "factory_information_menu"
+              name = "Information"
+              parent = "factory_menu"
+              action = "factory_view_action"
+              sequence = "1"
+     />
+<!--    <menuitem id = "machine_menu"-->
+<!--              name = "Machine"-->
+<!--              parent ="factory_menu"-->
+<!--              action = "machine_view_action"-->
+<!--              sequence="2"-->
+<!--    />-->
+    <menuitem id = "component_menu"
+              name = "Component"
+              parent ="factory_menu"
+              action = "component_view_action"
+              sequence="3"
+    />
+</odoo>

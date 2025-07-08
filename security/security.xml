@@ -1,0 +1,53 @@
+<odoo>
+
+    <data noupdate="0">
+        <record id = "module_category_user" model = "ir.module.category">
+            <field name = "name">User</field>
+            <field name = "sequence">1</field>
+        </record>
+
+        <record id = "group_manager" model = "res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_category_user"/>
+        </record>
+
+        <record id="group_maintenance_leader" model="res.groups">
+            <field name="name">Maintenance Leader</field>
+            <field name="category_id" ref="module_category_user"/>
+        </record>
+
+        <record id="group_maintenance_staff" model="res.groups">
+            <field name="name">Maintenance Staff</field>
+            <field name="category_id" ref="module_category_user"/>
+        </record>
+        <record id="group_warehouse_staff" model="res.groups">
+            <field name="name">Warehouse Staff</field>
+            <field name="category_id" ref="module_category_user"/>
+        </record>
+    </data>
+    <data noupdate="0">
+        <record id="rule_maintenance_staff_all" model="ir.rule">
+            <field name="name">Maintenance Staff All</field>
+            <field name="model_id" ref="model_maintenance_information"/>
+            <field name="groups" eval="[(4, ref('group_maintenance_staff'))]"/>
+            <field name="domain_force">[('status', '!=', 'waiting')]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="rule_maintenance_staff_waiting" model="ir.rule">
+            <field name="name">Maintenance Staff Waiting</field>
+            <field name="model_id" ref="model_maintenance_information"/>
+            <field name="groups" eval="[(4, ref('group_maintenance_staff'))]"/>
+            <field name="domain_force">[('status', '=', 'waiting')]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+    </data>
+
+</odoo>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_import_partlist_wizard_form" model="ir.ui.view">
+        <field name="name">import.partlist.wizard.form</field>
+        <field name="model">import.partlist.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import Part List">
+                <group>
+                    <field name="excel_file"/>
+                    <field name="import_type"/>
+                </group>
+                <footer>
+                    <button string="Import" name="action_import_partlist" type="object" class="btn-primary"/>
+                    <button string="Hủy" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,287 @@
+<odoo>
+
+<!-- view, action model group -->
+    <record id="model_group_tree_view" model="ir.ui.view">
+        <field name="name">group.tree</field>
+        <field name="model">group.information</field>
+        <field name="arch" type="xml">
+            <tree string="Maintenance Screw">
+                <field name="group_id"/>
+                <field name="category_id"/>
+                <field name="name"/>
+                <button name="show_group_details" type="object" string="Detail" class="oe_highlight" />
+            </tree>
+        </field>
+    </record>
+
+  <record id="model_group_form_view" model="ir.ui.view">
+        <field name="name">group.form</field>
+        <field name="model">group.information</field>
+        <field name="arch" type="xml">
+            <form string="Maintenance Screw">
+                <group>
+                    <group>
+                        <field name="group_id"/>
+                        <field name="category_id"/>
+                        <field name="name"/>
+                    </group>
+                </group>
+
+                        <field name = "detail_list">
+                            <tree>
+                                <field name="ID_model"/>
+                                <field name="name"/>
+                                <field name="manufacturer"/>
+                            </tree>
+                            <form>
+                                <group>
+                                    <field name="ID_model" optional="show"/>
+                                <field name="name" optional="show"/>
+                                <field name="manufacturer" optional="show"/>
+                                </group>
+                            </form>
+                        </field>
+            </form>
+        </field>
+    </record>
+
+    <!-- search view group -->
+<!--    <record id="model_group_search_view" model="ir.ui.view">-->
+<!--        <field name="name">group.search</field>-->
+<!--        <field name="model">group.information</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <search string="Maintenance Screw">-->
+<!--                <field name="category_id"/>-->
+<!--                <field name="name"/>-->
+<!--            </search>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="model_group_view_action" model="ir.actions.act_window">
+        <field name="name">Model group</field>
+        <field name="res_model">group.information</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!-- view, action category -->
+    <record id="category_tree_view" model="ir.ui.view">
+        <field name="name">category.tree</field>
+        <field name="model">category.information</field>
+        <field name="arch" type="xml">
+            <tree string="Maintenance Screw">
+                <field name="no"/>
+                <field name="category_id"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+  <record id="category_form_view" model="ir.ui.view">
+        <field name="name">category.form</field>
+        <field name="model">category.information</field>
+        <field name="arch" type="xml">
+            <form string="Maintenance Screw">
+
+                <group>
+                    <group>
+                        <field name="no"/>
+                        <field name="category_id"/>
+                        <field name="name"/>
+                    </group>
+                </group>
+                <field name = "group_list">
+                   <tree>
+                       <field name="name"/>
+                   </tree>
+                    <form>
+                        <field name="name" string = "Group name"/>
+                    </form>
+                </field>
+            </form>
+        </field>
+    </record>
+
+    <record id="category_view_action" model="ir.actions.act_window">
+        <field name="name">Category</field>
+        <field name="res_model">category.information</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+<!-- view,action model detail -->
+     <record id="model_detail_tree_view" model="ir.ui.view">
+        <field name="name">model.detail.tree</field>
+        <field name="model">detail.information</field>
+        <field name="arch" type="xml">
+            <tree string="Maintenance Screw">
+                <field name="ID_model"/>
+                <field name="name"/>
+                <field name="group_id"/>
+                <field name="category_id"/>
+                <field name="manufacturer"/>
+            </tree>
+
+        </field>
+    </record>
+
+  <record id="model_detail_form_view" model="ir.ui.view">
+        <field name="name">model.detail.form</field>
+        <field name="model">detail.information</field>
+        <field name="arch" type="xml">
+            <form string="Maintenance Screw">
+                <sheet>
+
+<!--                    <div class="oe_button_box" name = "button_box">-->
+<!--&lt;!&ndash;                        <button name="SpecialCommand" type = "object" string = "Command1"/>&ndash;&gt;-->
+<!--                        <button name="%(error_view_action)d" type="action" string="Error code" />-->
+<!--                    </div>-->
+                    <group>
+                        <group>
+                            <field name="ID_model"/>
+                            <field name="name"/>
+                            <field name="group_id"/>
+                            <field name="category_id"/>
+                            <field name="manufacturer"/>
+                        </group>
+                        <group>
+                            <field name="image" widget="image" class="oe_image_model" nolabel="1"
+                               options="{'size': [200, 200], 'preview_image': 'image', 'zoom': true, 'zoom_delete': true, 'force_save': true}"
+                               style="width: 100px; height: 100px;"/>
+                        </group>
+                    </group>
+                    <notebook>
+                            <page name = "part_scan_view" string = "Part scan">
+                                <field name="part_scan_ids">
+                                    <tree editable = "bottom">
+                                        <field name="no"/>
+                                        <field name="model_name"/>
+                                        <field name="image" widget = "image" class = "oe_image_model"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="no"/>
+                                            <field name="model_name"/>
+                                            <field name="image" widget = "image" class = "oe_image_model"/>
+                                        </group>
+
+                                    </form>
+                                </field>
+                            </page>
+                            <page name = "part_list_view" string = "Part list">
+                                <field name="part_list_ids">
+                                    <tree editable = "bottom">
+                                        <field name="no"/>
+                                        <field name="component_serial"/>
+                                        <field name="description"/>
+                                        <field name="quantity"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                           <field name="no"/>
+                                            <field name="component_serial"/>
+                                            <field name="description"/>
+                                            <field name="quantity"/>
+                                        </group>
+
+                                    </form>
+                                </field>
+                            </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- search view detail-->
+
+     <!--kanban view detail-->
+    <record id="detail_kanban_view" model="ir.ui.view">
+        <field name="name">detail.kanban</field>
+        <field name="model">detail.information</field>
+        <field name="arch" type="xml">
+            <kanban>
+
+                <field name="ID_model"/>
+                <field name="name"/>
+                <field name="group_id"/>
+                <field name="category_id"/>
+                <field name="manufacturer"/>
+                <field name="id"/>
+                <field name="image"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                                    <div class="o_kanban_image"
+                                        t-attf-style="background-image: url('/web/image/detail.information/#{record.id.raw_value}/image'); height: 100px; width: 100px !important; background-size: contain; background-repeat: no-repeat; background-position: center;">
+                                    </div>
+                                    <div class="o_kanban_detail d-flex flex-column">
+                                    <ul>
+                                        <li>
+                                            ID : <field name="ID_model"/>
+                                        </li>
+                                        <li>
+                                            Name : <field name="name"/>
+                                        </li>
+                                        <li>
+                                            Email : <field name="group_id"/>
+                                        </li>
+                                        <li>
+                                            Position : <field name="category_id"/>
+                                        </li>
+                                        <li>
+                                            Factory : <field name="manufacturer"/>
+                                        </li>
+                                        <li class="mt-2">
+                                            <button name="action_import_part_scan"
+                                                    string="Import Part Scan"
+                                                    type="object"
+                                                    class="btn btn-primary btn-sm"/>
+                                        </li>
+                                        <li class="mt-2">
+                                            <button name="action_import_partlist"
+                                                    string="Import Part List"
+                                                    type="object"
+                                                    class="oe_highlight"/>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="model_detail_view_action" model="ir.actions.act_window">
+        <field name="name">Model Detail</field>
+        <field name="res_model">detail.information</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+ <!-- tạo menu -->
+    <menuitem id = "maintenanceScrew_menu"
+          name = "Maintenance Screw"
+    />
+    <!-- menu Model -->
+    <menuitem id = "model_menu"
+              name = "Model"
+              parent = "maintenanceScrew_menu"
+    />
+
+    <menuitem id = "model_group_menu"
+              name = "Model group"
+              parent = "model_menu"
+              action = "model_group_view_action"
+              sequence = "1"
+     />
+    <menuitem id = "model_detail_menu"
+              name = "Model detail"
+              parent ="model_menu"
+              action = "model_detail_view_action"
+              sequence="2"
+    />
+    <menuitem id = "category_menu"
+              name = "Category"
+              parent = "model_menu"
+              action = "category_view_action"
+              sequence="3"
+    />
+
+</odoo>

@@ -1,0 +1,106 @@
+<odoo>
+    <!-- view,action model employee -->
+     <record id="employee_tree_view" model="ir.ui.view">
+        <field name="name">employee.tree</field>
+        <field name="model">employee.information</field>
+        <field name="arch" type="xml">
+            <tree string="Maintenance Screw">
+                <field name="id_code"/>
+                <field name="name"/>
+                <field name="email"/>
+                <field name="position"/>
+                <field name="factory_id"/>
+
+            </tree>
+        </field>
+    </record>
+
+  <record id="employee_form_view" model="ir.ui.view">
+        <field name="name">employee.form</field>
+        <field name="model">employee.information</field>
+        <field name="arch" type="xml">
+            <form string="Maintenance Screw">
+              <group>
+                  <group>
+                        <field name="id_code"/>
+                        <field name="name"/>
+                        <field name="email"/>
+                        <field name="sex"/>
+                  </group>
+                  <group>
+                      <field name = "image" widget = "image" class = "oe_avata"/>
+                  </group>
+              </group>
+                <group>
+                    <group>
+                        <field name = "position"/>
+                        <field name="factory_id"/>
+                    </group>
+                    <group>
+                        <field name = "birthday"/>
+                        <field name="phone"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+     <!--kanban view employee-->
+    <record id="employee_kanban_view" model="ir.ui.view">
+        <field name="name">employee.kanban</field>
+        <field name="model">employee.information</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="factory_id">
+                <field name="id_code"/>
+                <field name="name"/>
+                <field name="email"/>
+                <field name="position"/>
+                <field name="factory_id"/>
+                <field name="id"/>
+                <field name="image"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                                    <div class = "o_kanban_image d-none d-md-block"
+                                        t-attf-style = "background-image:url('#{kanban_image('employee.information','image',record.id.raw_value,placeholder)}'); height: 100px; background-size: cover;">
+<!--                                        <img class = "o_kanban_image_inner_pic"-->
+<!--                                             t-att-src = "kanban_image('employee.information','image',record.id.raw_value)"/>-->
+                                    </div>
+                                    <div class="o_kanban_employee d-flex flex-column">
+                                    <ul>
+                                        <li>
+                                            ID : <field name="id_code"/>
+                                        </li>
+                                        <li>
+                                            Name : <field name="name"/>
+                                        </li>
+                                        <li>
+                                            Email : <field name="email"/>
+                                        </li>
+                                        <li>
+                                            Position : <field name="position"/>
+                                        </li>
+                                        <li>
+                                            Factory : <field name="factory_id"/>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="employee_view_action" model="ir.actions.act_window">
+            <field name="name">Employee</field>
+            <field name="res_model">employee.information</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_id" ref="employee_kanban_view"/>
+    </record>
+    <!-- menu employee -->
+    <menuitem id = "employee_menu"
+              name = "Employee"
+              parent = "maintenanceScrew_menu"
+              action = "employee_view_action"
+    />
+</odoo>

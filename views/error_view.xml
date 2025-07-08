@@ -1,0 +1,35 @@
+<odoo>
+     <!-- view,action error -->
+     <record id="error_tree_view" model="ir.ui.view">
+        <field name="name">error.tree</field>
+        <field name="model">error.information</field>
+        <field name="arch" type="xml">
+            <tree string="Maintenance Screw">
+                <field name="error_code"/>
+                <field name="description"/>
+                <field name="checked"/>
+            </tree>
+        </field>
+    </record>
+
+  <record id="error_form_view" model="ir.ui.view">
+        <field name="name">error.form</field>
+        <field name="model">error.information</field>
+        <field name="arch" type="xml">
+            <form string="Maintenance Screw">
+                <field name="error_code"/>
+                <field name="description"/>
+                <field name="checked"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="error_view_action" model="ir.actions.act_window">
+        <field name="name">Error</field>
+        <field name="res_model">error.information</field>
+        <field name="view_mode">tree,form</field>
+         <field name="domain">[('machine_id', '=', active_id)]</field>
+        <field name="context">{'default_machine_id': active_id}</field>
+    </record>
+
+</odoo>

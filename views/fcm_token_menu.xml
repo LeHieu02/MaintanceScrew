@@ -1,0 +1,10 @@
+<odoo>
+    <record id="action_fcm_token" model="ir.actions.act_window">
+        <field name="name">FCM Tokens</field>
+        <field name="res_model">fcm.token</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_fcm_token_root" name="FCM Tokens" parent="base.menu_administration" sequence="100"/>
+    <menuitem id="menu_fcm_token" name="FCM Tokens" parent="menu_fcm_token_root" action="action_fcm_token" sequence="1"/>
+</odoo>

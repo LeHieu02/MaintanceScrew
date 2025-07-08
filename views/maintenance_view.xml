@@ -1,0 +1,149 @@
+<odoo>
+
+     <!-- view,action maintenance -->
+     <record id="maintenance_tree_view" model="ir.ui.view">
+        <field name="name">maintenance.tree</field>
+        <field name="model">maintenance.information</field>
+        <field name="arch" type="xml">
+            <tree string="Maintenance Screw">
+                <field name="name"/>
+                <field name="factory"/>
+                <field name="machine"/>
+                <field name="model"/>
+                <field name="status"/>
+                <field name="user_created"/>
+                <field name="user_confirmed"/>
+                <field name="user_done"/>
+                <field name="user_cancel"/>
+                <field name="datetime_start"/>
+            </tree>
+        </field>
+    </record>
+
+  <record id="maintenance_form_view" model="ir.ui.view">
+        <field name="name">maintenance.form</field>
+        <field name="model">maintenance.information</field>
+        <field name="arch" type="xml">
+            <form string="Maintenance Screw">
+                <header>
+                    <button name="action_open_receipt"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-truck"
+                            string="Receipt"
+                            invisible="status not in ('replacing', 'done', 'complete')">
+                        <field name="export_count" widget="badge-secondary" string="Receipts"/>
+                    </button>
+                     <button name="action_open_current_export"
+                            type="object"
+                            class="oe_highlight"
+                            string="View Export"
+                            invisible="status != 'replacing'"
+                            groups="Maintenance_Screw.group_maintenance_leader"/>
+
+                    <button name="action_waiting" type="object" string="next" invisible="status != 'processing'" class="btn-primary"/>
+                    <button name="action_processing" type="object" string="deny" invisible="status != 'waiting'" groups="Maintenance_Screw.group_maintenance_leader"  class="btn-primary"/>
+                    <button name="action_approve_popup" type="object" string="approve" invisible="status != 'waiting'" groups="Maintenance_Screw.group_maintenance_leader" class="btn-primary"/>
+<!--groups="Maintenance_Screw.group_maintenance_leader"-->
+                    <button name="action_done" type="object" string="done" invisible="status != 'replacing' or export_count == 0" class="btn-primary"/>
+                    <button name="action_replacing" type="object" string="deny" invisible="status != 'done'" groups="Maintenance_Screw.group_maintenance_leader" class="btn-primary"/>
+                    <button name="action_complete" type="object" string="complete" invisible="status != 'done'" class="btn-primary"/>
+                    <button name="action_cancel" type="object" string="cancel" invisible="status == 'complete'" />
+                    <field name="status" widget="statusbar" statusbar_visible = "processing,waiting,replacing,done,complete" />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="factory"/>
+                            <field name="machine"/>
+                            <field name="model"/>
+                            <field name="user_created"/>
+                            <field name="user_confirmed"/>
+                            <field name="user_done"/>
+                             <field name="user_cancel"/>
+                            <field name="datetime_start"/>
+                            <field name="datetime_finish"/>
+                            <field name="note_create"/>
+                            <field name="note_confirmed"/>
+                            <field name="note_cancel"/>
+                            <field name="description"/>
+                            <field name="photo"/>
+                        </group>
+                    </group>
+                    <notebook>
+                            <page name = "replaced_component_view" string = "Replaced Component">
+                                <field name="replaced_component_ids">
+                                    <tree editable = "bottom">
+                                        <field name="component"/>
+                                        <field name="models"/>
+                                        <field name="quantity"/>
+                                        <field name="receive"/>
+                                        <field name = "reason"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="component"/>
+                                            <field name="models"/>
+                                            <field name="quantity"/>
+                                            <field name="receive"/>
+                                            <field name = "reason"/>
+                                        </group>
+
+                                    </form>
+                                </field>
+                            </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+
+        </field>
+    </record>
+     <record id="maintenance_calendar_view" model="ir.ui.view">
+        <field name="name">maintenance.calendar</field>
+        <field name="model">maintenance.information</field>
+        <field name="arch" type="xml">
+            <calendar string="Maintenance date" date_start = "datetime_start">
+                <field name="name"/>
+                <field name="machine"/>
+                <field name="factory"/>
+                <field name="status"/>
+                <field name="user_created"/>
+            </calendar>
+        </field>
+    </record>
+<odoo>
+    <record id="view_maintenance_approve_wizard_form" model="ir.ui.view">
+        <field name="name">maintenance.approval.wizard.form</field>
+        <field name="model">maintenance.approval.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Approve Confirmation">
+                <group>
+<!--                    <field name="maintenance_id" readonly="1"/>-->
+                    <field name="warehouse_id" required="1"/>
+                </group>
+                <footer>
+                    <button string="Confirm" type="object" name="action_confirm_approval" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
+
+    <record id="maintenance_view_action" model="ir.actions.act_window">
+        <field name="name">Maintenance</field>
+        <field name="res_model">maintenance.information</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!-- menu maintenance -->
+    <menuitem id = "maintenance_menu"
+              name = "Maintenance"
+              parent = "maintenanceScrew_menu"
+              action = "maintenance_view_action"
+    />
+
+</odoo>

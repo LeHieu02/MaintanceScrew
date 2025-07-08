@@ -1,0 +1,35 @@
+<odoo>
+    <record id="management_factory_view_action" model="ir.actions.act_window">
+        <field name="name">Management factory information</field>
+        <field name="res_model">machine.information</field>
+        <field name="view_mode">graph</field>
+         <field name="view_id" ref="machine_graph_view"/>
+    </record>
+
+
+    <record id="management_maintenance_view_action" model="ir.actions.act_window">
+        <field name="name">Management maintenance date</field>
+        <field name="res_model">maintenance.information</field>
+        <field name="view_mode">calendar</field>
+    </record>
+
+     <!-- menu management -->
+    <menuitem id = "management_menu"
+              name = "Management"
+              parent = "maintenanceScrew_menu"
+    />
+
+    <menuitem id = "management_factory_menu"
+              name = "Factory"
+              parent = "management_menu"
+              action = "management_factory_view_action"
+              sequence = "1"
+     />
+    <menuitem id = "management_maintenance_menu"
+              name = "Maintenance"
+              parent ="management_menu"
+              action = "management_maintenance_view_action"
+              sequence="2"
+              />
+
+</odoo>
